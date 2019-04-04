@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <Header></Header>
+    <ListWrapper></ListWrapper>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import ListWrapper from "@/components/ListWrapper.vue";
+import List from "@/components/List.vue";
+import Header from "@/components/Header.vue";
 export default {
-  name: "app",
+  data() {
+    return {
+      id: null,
+      lists: [
+        { name: "Todo", id: 123 },
+        { name: "Doing", id: 234 },
+        { name: "Done", id: 555 }
+      ]
+    };
+  },
   components: {
-    HelloWorld
-  }
+    ListWrapper,
+    Header
+  },
+  methods: {}
 };
 </script>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
+  width: 100vw;
 }
 </style>
