@@ -204,6 +204,9 @@ export default {
     display: flex;
     .icon {
       margin-left: 1rem;
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
   }
   .card-header {
@@ -222,12 +225,18 @@ export default {
     .icon {
       margin-right: 1rem;
       margin-top: auto;
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
   }
   .horizontal {
     display: flex;
     .icon {
       margin-right: 1rem;
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
     .description {
       width: 100%;
