@@ -47,6 +47,7 @@ export default {
       this.addNewCard(listIndex, newCard);
       //Remove card from prior position
       this.removeCard(cardCoords[1], cardId);
+      this.saveLists();
     },
     updateCard(details) {
       let cardDetails = details[0];
@@ -55,18 +56,21 @@ export default {
       let listIndex = this.getListIndex(listId);
       let foundCard = this.getCardIndex(cardId, listIndex);
       this.lists[listIndex].cards[foundCard].details = cardDetails;
+      this.saveLists();
     },
     createCard(details) {
       let listId = details[0];
       let newCard = details[1][0];
       let listIndex = this.getListIndex(listId);
       this.addNewCard(listIndex, newCard);
+      this.saveLists();
     },
     deleteCard(deletionCoords) {
       let cardId = deletionCoords[0];
       let listId = deletionCoords[1];
       let listIndex = this.lists.findIndex(x => x.id == listId);
       this.removeCard(listIndex, cardId);
+      this.saveLists();
     },
 
     //helpers
@@ -93,6 +97,21 @@ export default {
           this.cardIndex = cardIndex;
           return [cardIndex, i];
         }
+      }
+    },
+
+    //Local storage
+    saveLists() {
+      const parsed = JSON.stringify(this.lists);
+      localStorage.setItem("lists", parsed);
+    }
+  },
+  mounted() {
+    if (localStorage.getItem("lists")) {
+      try {
+        this.lists = JSON.parse(localStorage.getItem("lists"));
+      } catch (e) {
+        localStorage.removeItem("lists");
       }
     }
   }
