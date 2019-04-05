@@ -9,6 +9,7 @@
 import ListWrapper from "@/components/ListWrapper.vue";
 import List from "@/components/List.vue";
 import Header from "@/components/Header.vue";
+import "../dragPolyfill.js";
 export default {
   data() {
     return {
