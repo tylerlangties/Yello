@@ -8,6 +8,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import ListWrapper from "@/components/ListWrapper.vue";
+import "../dragPolyfill.js";
 export default {
   components: {
     ListWrapper,
