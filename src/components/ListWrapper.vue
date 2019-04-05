@@ -108,5 +108,9 @@ export default {
   display: grid;
   grid-template-columns: 300px 300px 300px;
   grid-column-gap: 1rem;
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr 1fr 1fr;
+  }
 }
 </style>
