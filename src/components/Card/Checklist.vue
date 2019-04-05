@@ -153,8 +153,10 @@ export default {
   .checkbox {
     width: 100%;
   }
-  &:hover {
-    background-color: whitesmoke;
+  @media (min-width: 768px) {
+    &:hover {
+      background-color: whitesmoke;
+    }
   }
   .edit-checkbox {
     color: darkgray;
