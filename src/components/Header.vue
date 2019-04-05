@@ -1,10 +1,7 @@
 <template>
   <section class="hero is-primary">
     <div class="hero-body">
-      <div class="container">
-        <h1 class="title">YELLO</h1>
-        <h2 class="subtitle"></h2>
-      </div>
+      <div class="container"></div>
     </div>
   </section>
 </template>

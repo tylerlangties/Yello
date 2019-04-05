@@ -21,9 +21,6 @@ import List from "@/components/List.vue";
 export default {
   data() {
     return {
-      cardToMove: null,
-      listIndex: null,
-      cardIndex: null,
       lists: [
         { name: "Todo", id: 123, cards: [] },
         { name: "Doing", id: 234, cards: [] },
@@ -44,17 +41,18 @@ export default {
       //Card to be moved
       const newCard = this.lists[cardCoords[1]].cards[cardCoords[0]];
       //Move card to new position
-      this.addNewCard(listIndex, newCard);
+
       //Remove card from prior position
       this.removeCard(cardCoords[1], cardId);
+      this.addNewCard(listIndex, newCard);
       this.saveLists();
     },
     updateCard(details) {
-      let cardDetails = details[0];
-      let cardId = details[1];
-      let listId = details[2];
-      let listIndex = this.getListIndex(listId);
-      let foundCard = this.getCardIndex(cardId, listIndex);
+      const cardDetails = details[0];
+      const cardId = details[1];
+      const listId = details[2];
+      const listIndex = this.getListIndex(listId);
+      const foundCard = this.getCardIndex(cardId, listIndex);
       this.lists[listIndex].cards[foundCard].details = cardDetails;
       this.saveLists();
     },

@@ -6,10 +6,7 @@
       <b-field label="Select a date">
         <b-datepicker placeholder="Click to select..." icon="calendar-today"></b-datepicker>
       </b-field>
-      <button
-        @click="deleteDatepicker"
-        class="delete-datepicker button is-primary"
-      >Delete Datepicker</button>
+      <button @click="deleteDatepicker" class="delete-datepicker button is-primary">Delete Due date</button>
     </div>
   </div>
 </template>

@@ -40,11 +40,11 @@
                   <a
                     v-if="detail.descriptionEditMode"
                     class="button is-primary"
-                    @click="closeEditMode"
+                    @click="closeDescriptionEditMode"
                   >Save</a>
                   <div class="noEdit" v-if="!detail.descriptionEditMode">
                     <p>{{detail.description}}</p>
-                    <a @click="editMode">
+                    <a @click="descriptionEditMode">
                       <b-icon pack="fas" icon="edit" size="small"></b-icon>
                     </a>
                   </div>
@@ -64,7 +64,12 @@
         <div class="columns">
           <div ref="container" class="column is-three-quarters">
             <Datepicker v-on:deleteDatepicker="deleteDatepicker" v-if="detail.hasDatepicker"></Datepicker>
-            <Checklist v-on:deleteChecklist="deleteChecklist" v-if="detail.hasChecklist"></Checklist>
+            <Checklist
+              v-on:deleteChecklist="deleteChecklist"
+              v-on:updateChecklist="updateChecklist"
+              v-if="detail.hasChecklist"
+              :detail="detail"
+            ></Checklist>
           </div>
           <div class="column is-one-quarter action-buttons">
             <h5>Actions</h5>
@@ -107,6 +112,7 @@ export default {
         description: "",
         error: false,
         hasChecklist: false,
+        checklist: null,
         hasDatepicker: false
       }
     };
@@ -114,10 +120,19 @@ export default {
   methods: {
     generateChecklist() {
       event.preventDefault();
-      this.detail.hasChecklist = true;
+      if (!this.detail.hasChecklist) {
+        this.detail.hasChecklist = true;
+        this.$emit("updateCard", this.detail);
+      }
     },
     deleteChecklist() {
       this.detail.hasChecklist = false;
+      this.detail.checklist = null;
+      this.$emit("updateCard", this.detail);
+    },
+    updateChecklist(newChecklist) {
+      this.detail.checklist = newChecklist;
+      this.$emit("updateCard", this.detail);
     },
     generateDatepicker() {
       event.preventDefault();
@@ -126,10 +141,10 @@ export default {
     deleteDatepicker() {
       this.detail.hasDatepicker = false;
     },
-    editMode() {
+    descriptionEditMode() {
       this.detail.descriptionEditMode = true;
     },
-    closeEditMode() {
+    closeDescriptionEditMode() {
       this.detail.descriptionEditMode = false;
       this.$emit("updateCard", this.detail);
     },
@@ -152,8 +167,10 @@ export default {
       console.log("first");
     }
   },
-  created() {
-    if (this.card.details.description) {
+  mounted() {
+    if (
+      Object.keys(this.card.details).length >= Object.keys(this.detail).length
+    ) {
       this.detail = this.card.details;
     } else {
       this.detail.name = this.card.details.name;
@@ -168,7 +185,7 @@ export default {
     width: 100vw;
   }
   color: black;
-  width: 80vw;
+  width: 960px;
   height: 80vh;
   .noEdit {
     display: flex;
@@ -219,5 +236,8 @@ export default {
   button {
     font-size: 1rem;
   }
+}
+.columns {
+  margin: 0;
 }
 </style>

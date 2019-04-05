@@ -36,6 +36,12 @@
 <script>
 export default {
   name: "Checklist",
+  props: {
+    detail: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       title: "Checklist",
@@ -78,7 +84,6 @@ export default {
       );
     },
     updateProgressBar() {
-      console.log("click");
       let progress = 0;
       let chunk = 100 / this.checkboxes.length;
       this.checkboxes.forEach(function(checkbox) {
@@ -87,8 +92,18 @@ export default {
         }
       });
       this.progress = progress.toFixed(0);
-      console.log(this.progress);
+      this.updateChecklist();
+    },
+    updateChecklist() {
+      this.$emit("updateChecklist", this.checkboxes);
     }
+  },
+  mounted() {
+    if (this.detail.checklist) {
+      this.checkboxes = this.detail.checklist;
+    }
+    this.updateProgressBar();
+    this.updateChecklist();
   }
 };
 </script>

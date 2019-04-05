@@ -59,8 +59,8 @@ export default {
     },
     createNewCard(cardTitle) {
       this.composerIsOpen = false;
-      let newId = this.randomId();
-      let newCard = [{ id: newId, details: { name: cardTitle } }];
+      const newId = this.randomId();
+      const newCard = [{ id: newId, details: { name: cardTitle } }];
       this.$emit("createCard", [this.id, newCard]);
     },
     deleteCard: function(childId) {
@@ -94,9 +94,18 @@ export default {
         let targetListId = event.target.id;
         let movedChildId = data;
         this.$emit("cardMoved", [targetListId, movedChildId]);
-      } else if (event.target.className == "box-2") {
-        console.log("catch");
+      } else if (
+        event.target.parentElement.className === "box" ||
+        event.target.parentElement.className === "box hovered"
+      ) {
         let targetListId = event.target.parentElement.id;
+        let movedChildId = data;
+        this.$emit("cardMoved", [targetListId, movedChildId]);
+      } else if (
+        event.target.parentElement.parentElement === "box" ||
+        event.target.parentElement.parentElement === "box hovered"
+      ) {
+        let targetListId = event.target.parentElement.parentElement.id;
         let movedChildId = data;
         this.$emit("cardMoved", [targetListId, movedChildId]);
       }
