@@ -246,7 +246,6 @@ export default {
     margin-bottom: 0.5rem;
     @media (max-width: 767px) {
       width: 100%;
-      margin-left: 2rem;
     }
   }
 }
