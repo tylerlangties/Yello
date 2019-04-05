@@ -10,7 +10,7 @@
         v-on:dragenter="dragEnterHandler"
       >
         <h3>{{list.name}}</h3>
-        <Box
+        <Card
           v-for="card in list.cards"
           :card="card"
           :id="card.id"
@@ -18,7 +18,7 @@
           :parent="list.name"
           v-on:deleteCard="deleteCard"
           v-on:updateCard="updateCard"
-        ></Box>
+        ></Card>
       </div>
       <ListHeader
         :open="composerIsOpen"
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Box from "@/components/Box.vue";
+import Card from "@/components/Card.vue";
 import ListHeader from "@/components/ListHeader.vue";
 export default {
   props: {
@@ -49,7 +49,7 @@ export default {
     };
   },
   components: {
-    Box,
+    Card,
     ListHeader
   },
   methods: {

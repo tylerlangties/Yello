@@ -2,6 +2,8 @@
   <form>
     <div draggable="false" class="modal-card" style="width: auto">
       <section class="modal-card-body">
+        <!-- Header and Title edit -->
+
         <div class="content card-header">
           <b-icon pack="fas" icon="chalkboard"></b-icon>
 
@@ -19,21 +21,28 @@
           </div>
           <p v-if="detail.error" class="error">Your card must have a title</p>
         </div>
+
+        <!-- Description -->
+
         <div class="columns">
-          <div class="column is-three-fifths horizontal">
+          <div class="column is-three-quarters horizontal">
             <b-icon pack="fas" icon="align-left"></b-icon>
             <div class="description">
               <b-field label="Description">
                 <div>
                   <b-input
-                    v-if="detail.editMode"
+                    v-if="detail.descriptionEditMode"
                     v-model="detail.description"
                     placeholder="Leave a more detailed description"
                     type="textarea"
                   ></b-input>
 
-                  <a v-if="detail.editMode" class="button is-primary" @click="closeEditMode">Save</a>
-                  <div class="noEdit" v-if="!detail.editMode">
+                  <a
+                    v-if="detail.descriptionEditMode"
+                    class="button is-primary"
+                    @click="closeEditMode"
+                  >Save</a>
+                  <div class="noEdit" v-if="!detail.descriptionEditMode">
                     <p>{{detail.description}}</p>
                     <a @click="editMode">
                       <b-icon pack="fas" icon="edit" size="small"></b-icon>
@@ -43,10 +52,31 @@
               </b-field>
             </div>
           </div>
+
+          <!-- Action buttons Column -->
+
+          <div class="column action-buttons">
+            <h5>Add to card</h5>
+            <button
+              @click="generateChecklist"
+              :disabled="detail.hasChecklist"
+              class="button is-primary remove"
+            >Checklist</button>
+            <button class="button is-primary move">Due Date</button>
+          </div>
+        </div>
+        <div class="columns">
+          <div ref="container" class="column is-three-quarters">
+            <Checklist v-on:deleteChecklist="deleteChecklist" v-if="detail.hasChecklist"></Checklist>
+          </div>
+          <div class="column is-one-quarter action-buttons">
+            <h5>Actions</h5>
+            <button class="button is-primary move">Move</button>
+            <button v-on:click="deleteCard" class="button is-danger remove">Delete</button>
+          </div>
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button v-on:click="deleteCard">Remove me</button>
         <button class="button" type="button" @click="$parent.close()">Close</button>
       </footer>
     </div>
@@ -54,6 +84,8 @@
 </template>
 
 <script>
+import Vue from "vue";
+import Checklist from "@/components/Card/Checklist.vue";
 export default {
   props: {
     card: {
@@ -64,23 +96,34 @@ export default {
       type: String
     }
   },
+  components: {
+    Checklist
+  },
   data() {
     return {
       detail: {
         name: "",
         nameEditMode: false,
-        editMode: true,
+        descriptionEditMode: true,
         description: "",
-        error: false
+        error: false,
+        hasChecklist: false
       }
     };
   },
   methods: {
+    generateChecklist() {
+      event.preventDefault();
+      this.detail.hasChecklist = true;
+    },
+    deleteChecklist() {
+      this.detail.hasChecklist = false;
+    },
     editMode() {
-      this.detail.editMode = true;
+      this.detail.descriptionEditMode = true;
     },
     closeEditMode() {
-      this.detail.editMode = false;
+      this.detail.descriptionEditMode = false;
       this.$emit("updateCard", this.detail);
     },
     nameEditMode() {
@@ -114,8 +157,10 @@ export default {
 
 <style scoped lang="scss">
 .modal-card-body {
+  @media (max-width: 992px) {
+    width: 100vw;
+  }
   color: black;
-  height: 60vh;
   width: 80vw;
   .noEdit {
     display: flex;
@@ -123,7 +168,6 @@ export default {
       margin-left: 1rem;
     }
   }
-
   .card-header {
     box-shadow: none;
     display: flex;
@@ -150,6 +194,12 @@ export default {
     .description {
       width: 100%;
     }
+  }
+}
+.action-buttons {
+  button {
+    width: 136px;
+    margin-bottom: 0.5rem;
   }
 }
 .error {
