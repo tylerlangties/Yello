@@ -57,16 +57,16 @@ export default {
       this.saveLists();
     },
     createCard(details) {
-      let listId = details[0];
-      let newCard = details[1][0];
-      let listIndex = this.getListIndex(listId);
+      const listId = details[0];
+      const newCard = details[1][0];
+      const listIndex = this.getListIndex(listId);
       this.addNewCard(listIndex, newCard);
       this.saveLists();
     },
     deleteCard(deletionCoords) {
-      let cardId = deletionCoords[0];
-      let listId = deletionCoords[1];
-      let listIndex = this.lists.findIndex(x => x.id == listId);
+      const cardId = deletionCoords[0];
+      const listId = deletionCoords[1];
+      const listIndex = this.lists.findIndex(x => x.id == listId);
       this.removeCard(listIndex, cardId);
       this.saveLists();
     },

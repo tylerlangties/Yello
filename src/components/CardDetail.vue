@@ -63,7 +63,12 @@
         </div>
         <div class="columns">
           <div ref="container" class="column is-three-quarters">
-            <Datepicker v-on:deleteDatepicker="deleteDatepicker" v-if="detail.hasDatepicker"></Datepicker>
+            <Datepicker
+              v-on:deleteDatepicker="deleteDatepicker"
+              v-on:updateDate="updateDatePicker"
+              v-if="detail.hasDatepicker"
+              :date="detail.dueDate"
+            ></Datepicker>
             <Checklist
               v-on:deleteChecklist="deleteChecklist"
               v-on:updateChecklist="updateChecklist"
@@ -113,7 +118,8 @@ export default {
         error: false,
         hasChecklist: false,
         checklist: null,
-        hasDatepicker: false
+        hasDatepicker: false,
+        dueDate: null
       }
     };
   },
@@ -137,9 +143,16 @@ export default {
     generateDatepicker() {
       event.preventDefault();
       this.detail.hasDatepicker = true;
+      this.$emit("updateCard", this.detail);
+    },
+    updateDatePicker(dueDate) {
+      this.detail.dueDate = dueDate;
+      this.$emit("updateCard", this.detail);
     },
     deleteDatepicker() {
       this.detail.hasDatepicker = false;
+      this.detail.dueDate = null;
+      this.$emit("updateCard", this.detail);
     },
     descriptionEditMode() {
       this.detail.descriptionEditMode = true;
@@ -222,9 +235,19 @@ export default {
   }
 }
 .action-buttons {
+  @media (max-width: 767px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   button {
     width: 136px;
     margin-bottom: 0.5rem;
+    @media (max-width: 767px) {
+      width: 100%;
+      margin-left: 2rem;
+    }
   }
 }
 .error {

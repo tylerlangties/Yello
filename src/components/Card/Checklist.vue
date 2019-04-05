@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     addCheckbox() {
-      let id = 1;
       event.preventDefault();
       this.checkboxes.push({
         title: "Untitled",
@@ -70,7 +69,6 @@ export default {
       this.$emit("deleteChecklist");
     },
     removeCheckbox(id) {
-      console.log("working");
       console.log(id);
       this.checkboxes = this.checkboxes.filter(x => x.id !== id);
       this.updateProgressBar();

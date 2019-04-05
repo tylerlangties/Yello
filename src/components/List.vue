@@ -144,7 +144,7 @@ export default {
   display: none;
 }
 .box {
-  min-height: 80px;
+  min-height: 85px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 0;
