@@ -57,16 +57,13 @@
 
           <div class="column action-buttons">
             <h5>Add to card</h5>
-            <button
-              @click="generateChecklist"
-              :disabled="detail.hasChecklist"
-              class="button is-primary remove"
-            >Checklist</button>
-            <button class="button is-primary move">Due Date</button>
+            <button @click="generateChecklist" class="button is-primary remove">Checklist</button>
+            <button @click="generateDatepicker" class="button is-primary move">Due Date</button>
           </div>
         </div>
         <div class="columns">
           <div ref="container" class="column is-three-quarters">
+            <Datepicker v-on:deleteDatepicker="deleteDatepicker" v-if="detail.hasDatepicker"></Datepicker>
             <Checklist v-on:deleteChecklist="deleteChecklist" v-if="detail.hasChecklist"></Checklist>
           </div>
           <div class="column is-one-quarter action-buttons">
@@ -86,6 +83,7 @@
 <script>
 import Vue from "vue";
 import Checklist from "@/components/Card/Checklist.vue";
+import Datepicker from "@/components/Card/Datepicker.vue";
 export default {
   props: {
     card: {
@@ -97,7 +95,8 @@ export default {
     }
   },
   components: {
-    Checklist
+    Checklist,
+    Datepicker
   },
   data() {
     return {
@@ -107,7 +106,8 @@ export default {
         descriptionEditMode: true,
         description: "",
         error: false,
-        hasChecklist: false
+        hasChecklist: false,
+        hasDatepicker: false
       }
     };
   },
@@ -118,6 +118,13 @@ export default {
     },
     deleteChecklist() {
       this.detail.hasChecklist = false;
+    },
+    generateDatepicker() {
+      event.preventDefault();
+      this.detail.hasDatepicker = true;
+    },
+    deleteDatepicker() {
+      this.detail.hasDatepicker = false;
     },
     editMode() {
       this.detail.descriptionEditMode = true;
@@ -162,6 +169,7 @@ export default {
   }
   color: black;
   width: 80vw;
+  height: 80vh;
   .noEdit {
     display: flex;
     .icon {
