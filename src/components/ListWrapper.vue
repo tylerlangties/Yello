@@ -125,7 +125,7 @@ export default {
   display: grid;
   grid-template-columns: 300px 300px 300px;
   grid-column-gap: 1rem;
-  @media (max-width: 767px) {
+  @media (max-width: 992px) {
     display: flex;
     justify-content: center;
     flex-direction: column;
