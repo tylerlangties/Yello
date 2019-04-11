@@ -47,18 +47,18 @@ export default {
       this.addNewCard(listIndex, newCard);
       this.saveLists();
     },
-    updateCard(details) {
-      const cardDetails = details[0];
-      const cardId = details[1];
-      const listId = details[2];
+    updateCard(cardInfo) {
+      const card = cardInfo[0];
+      const cardId = cardInfo[1];
+      const listId = cardInfo[2];
       const listIndex = this.getListIndex(listId);
       const foundCard = this.getCardIndex(cardId, listIndex);
-      this.lists[listIndex].cards[foundCard].details = cardDetails;
+      this.lists[listIndex].cards[foundCard].cardInfo = card;
       this.saveLists();
     },
-    createCard(details) {
-      const listId = details[0];
-      const newCard = details[1][0];
+    createCard(cardInfo) {
+      const listId = cardInfo[0];
+      const newCard = cardInfo[1][0];
       const listIndex = this.getListIndex(listId);
       this.addNewCard(listIndex, newCard);
       this.saveLists();

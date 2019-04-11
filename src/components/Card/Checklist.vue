@@ -37,7 +37,7 @@
 export default {
   name: "Checklist",
   props: {
-    detail: {
+    cardInfo: {
       type: Object,
       required: true
     }
@@ -97,8 +97,8 @@ export default {
     }
   },
   mounted() {
-    if (this.detail.checklist) {
-      this.checkboxes = this.detail.checklist;
+    if (this.cardInfo.checklist) {
+      this.checkboxes = this.cardInfo.checklist;
     }
     this.updateProgressBar();
     this.updateChecklist();

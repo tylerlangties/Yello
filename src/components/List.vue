@@ -53,14 +53,14 @@ export default {
     ListHeader
   },
   methods: {
-    updateCard(details) {
-      details.push(this.id);
-      this.$emit("updateCard", details);
+    updateCard(cardInfo) {
+      cardInfo.push(this.id);
+      this.$emit("updateCard", cardInfo);
     },
     createNewCard(cardTitle) {
       this.composerIsOpen = false;
       const newId = this.randomId();
-      const newCard = [{ id: newId, details: { name: cardTitle } }];
+      const newCard = [{ id: newId, cardInfo: { name: cardTitle } }];
       this.$emit("createCard", [this.id, newCard]);
     },
     deleteCard: function(childId) {
@@ -88,22 +88,22 @@ export default {
       this.childIsHovering = false;
       var data = event.dataTransfer.getData("text/plain");
       if (
-        event.target.className === "box" ||
-        event.target.className === "box hovered"
+        event.target.className === "list" ||
+        event.target.className === "list hovered"
       ) {
         let targetListId = event.target.id;
         let movedChildId = data;
         this.$emit("cardMoved", [targetListId, movedChildId]);
       } else if (
-        event.target.parentElement.className === "box" ||
-        event.target.parentElement.className === "box hovered"
+        event.target.parentElement.className === "list" ||
+        event.target.parentElement.className === "list hovered"
       ) {
         let targetListId = event.target.parentElement.id;
         let movedChildId = data;
         this.$emit("cardMoved", [targetListId, movedChildId]);
       } else if (
-        event.target.parentElement.parentElement === "box" ||
-        event.target.parentElement.parentElement === "box hovered"
+        event.target.parentElement.parentElement === "list" ||
+        event.target.parentElement.parentElement === "list hovered"
       ) {
         let targetListId = event.target.parentElement.parentElement.id;
         let movedChildId = data;
@@ -122,9 +122,9 @@ export default {
   computed: {
     handleChildHover() {
       if (this.childIsHovering) {
-        return "box hovered";
+        return "list hovered";
       } else {
-        return "box";
+        return "list";
       }
     }
   }
@@ -136,6 +136,9 @@ export default {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   border-radius: 3px;
   width: 275px;
+  @media (max-width: 992px) {
+    width: 80vw;
+  }
 }
 .hovered {
   transition: all 200ms ease;
@@ -143,7 +146,7 @@ export default {
 .hidden {
   display: none;
 }
-.box {
+.list {
   min-height: 85px;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;

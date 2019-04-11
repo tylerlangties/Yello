@@ -8,18 +8,18 @@
           <b-icon pack="fas" icon="chalkboard"></b-icon>
 
           <div class="card-title">
-            <h2 v-if="!detail.nameEditMode">{{detail.name}}</h2>
-            <a v-if="!detail.nameEditMode" @click="nameEditMode">
+            <h2 v-if="!cardInfo.nameEditMode">{{cardInfo.name}}</h2>
+            <a v-if="!cardInfo.nameEditMode" @click="nameEditMode">
               <b-icon pack="fas" icon="edit" size="small"></b-icon>
             </a>
-            <div v-if="detail.nameEditMode" class="name-editmode">
-              <b-input type="text" v-model="detail.name"></b-input>
+            <div v-if="cardInfo.nameEditMode" class="name-editmode">
+              <b-input type="text" v-model="cardInfo.name"></b-input>
 
               <button @click="updateCard" class="button is-primary">Save</button>
             </div>
             <span>in {{parent}} list</span>
           </div>
-          <p v-if="detail.error" class="error">Your card must have a title</p>
+          <p v-if="cardInfo.error" class="error">Your card must have a title</p>
         </div>
 
         <!-- Description -->
@@ -31,19 +31,19 @@
               <b-field label="Description">
                 <div>
                   <b-input
-                    v-if="detail.descriptionEditMode"
-                    v-model="detail.description"
+                    v-if="cardInfo.descriptionEditMode"
+                    v-model="cardInfo.description"
                     placeholder="Leave a more detailed description"
                     type="textarea"
                   ></b-input>
 
                   <a
-                    v-if="detail.descriptionEditMode"
+                    v-if="cardInfo.descriptionEditMode"
                     class="button is-primary"
                     @click="closeDescriptionEditMode"
                   >Save</a>
-                  <div class="noEdit" v-if="!detail.descriptionEditMode">
-                    <p>{{detail.description}}</p>
+                  <div class="noEdit" v-if="!cardInfo.descriptionEditMode">
+                    <p>{{cardInfo.description}}</p>
                     <a @click="descriptionEditMode">
                       <b-icon pack="fas" icon="edit" size="small"></b-icon>
                     </a>
@@ -66,14 +66,14 @@
             <Datepicker
               v-on:deleteDatepicker="deleteDatepicker"
               v-on:updateDate="updateDatePicker"
-              v-if="detail.hasDatepicker"
-              :date="detail.dueDate"
+              v-if="cardInfo.hasDatepicker"
+              :date="cardInfo.dueDate"
             ></Datepicker>
             <Checklist
               v-on:deleteChecklist="deleteChecklist"
               v-on:updateChecklist="updateChecklist"
-              v-if="detail.hasChecklist"
-              :detail="detail"
+              v-if="cardInfo.hasChecklist"
+              :cardInfo="cardInfo"
             ></Checklist>
           </div>
           <div class="column is-one-quarter action-buttons">
@@ -110,7 +110,7 @@ export default {
   },
   data() {
     return {
-      detail: {
+      cardInfo: {
         name: "",
         nameEditMode: false,
         descriptionEditMode: true,
@@ -126,67 +126,67 @@ export default {
   methods: {
     generateChecklist() {
       event.preventDefault();
-      if (!this.detail.hasChecklist) {
-        this.detail.hasChecklist = true;
-        this.$emit("updateCard", this.detail);
+      if (!this.cardInfo.hasChecklist) {
+        this.cardInfo.hasChecklist = true;
+        this.$emit("updateCard", this.cardInfo);
       }
     },
     deleteChecklist() {
-      this.detail.hasChecklist = false;
-      this.detail.checklist = null;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.hasChecklist = false;
+      this.cardInfo.checklist = null;
+      this.$emit("updateCard", this.cardInfo);
     },
     updateChecklist(newChecklist) {
-      this.detail.checklist = newChecklist;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.checklist = newChecklist;
+      this.$emit("updateCard", this.cardInfo);
     },
     generateDatepicker() {
       event.preventDefault();
-      this.detail.hasDatepicker = true;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.hasDatepicker = true;
+      this.$emit("updateCard", this.cardInfo);
     },
     updateDatePicker(dueDate) {
-      this.detail.dueDate = dueDate;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.dueDate = dueDate;
+      this.$emit("updateCard", this.cardInfo);
     },
     deleteDatepicker() {
-      this.detail.hasDatepicker = false;
-      this.detail.dueDate = null;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.hasDatepicker = false;
+      this.cardInfo.dueDate = null;
+      this.$emit("updateCard", this.cardInfo);
     },
     descriptionEditMode() {
-      this.detail.descriptionEditMode = true;
+      this.cardInfo.descriptionEditMode = true;
     },
     closeDescriptionEditMode() {
-      this.detail.descriptionEditMode = false;
-      this.$emit("updateCard", this.detail);
+      this.cardInfo.descriptionEditMode = false;
+      this.$emit("updateCard", this.cardInfo);
     },
     nameEditMode() {
-      this.detail.nameEditMode = true;
+      this.cardInfo.nameEditMode = true;
     },
     deleteCard: function() {
       event.preventDefault();
       this.$parent.close();
-      this.$emit("deleteCard", this.boxId);
+      this.$emit("deleteCard");
     },
     updateCard() {
-      if (this.detail.name !== "") {
-        this.detail.nameEditMode = false;
-        this.detail.error = false;
+      if (this.cardInfo.name !== "") {
+        this.cardInfo.nameEditMode = false;
+        this.cardInfo.error = false;
       } else {
-        this.detail.error = true;
+        this.cardInfo.error = true;
       }
-      this.$emit("updateCard", this.detail);
-      console.log("first");
+      this.$emit("updateCard", this.cardInfo);
     }
   },
   mounted() {
     if (
-      Object.keys(this.card.details).length >= Object.keys(this.detail).length
+      Object.keys(this.card.cardInfo).length >=
+      Object.keys(this.cardInfo).length
     ) {
-      this.detail = this.card.details;
+      this.cardInfo = this.card.cardInfo;
     } else {
-      this.detail.name = this.card.details.name;
+      this.cardInfo.name = this.card.cardInfo.name;
     }
   }
 };
